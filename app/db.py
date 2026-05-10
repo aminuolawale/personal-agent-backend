@@ -2,6 +2,7 @@ from collections.abc import Generator
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+from sqlalchemy.pool import NullPool
 
 from app.settings import get_settings
 
@@ -11,7 +12,7 @@ class Base(DeclarativeBase):
 
 
 settings = get_settings()
-engine = create_engine(settings.sqlalchemy_database_url, pool_pre_ping=True)
+engine = create_engine(settings.sqlalchemy_database_url, poolclass=NullPool)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
 
 
